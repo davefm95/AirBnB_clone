@@ -4,7 +4,7 @@ import uuid
 import datetime
 
 
-class BaseModel:
+class BaseModel():
     """Thid thr base model class"""
     def __init__(self):
         """This initializes the instance"""
