@@ -36,7 +36,6 @@ class FileStorage():
             clsmod = {'BaseModel': "models.base_model"}
             for key, value in objects.items():
                 clsnm = value["__class__"]
-                del value["__class__"]
                 for k, v in clsmod.items():
                     if clsnm == k:
                         mymod = import_module(v)
