@@ -26,7 +26,7 @@ class BaseModel():
 
     def __str__(self):
         """The str representation of the class"""
-        return f"[{self.__class__.__name__}] [{self.id}] {self.__dict__}"
+        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
         """uodates self.updated_at"""
