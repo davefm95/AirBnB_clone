@@ -7,6 +7,7 @@ from models import storage
 
 class BaseModel():
     """Thid thr base model class"""
+
     def __init__(self, *args, **kwargs):
         """This initializes the instance"""
         if len(kwargs) > 0:
