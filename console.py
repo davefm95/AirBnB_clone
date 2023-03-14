@@ -135,9 +135,8 @@ class HBNBCommand(cmd.Cmd):
         obj_id = args[0] + "." + args[1]
         obj = objs[obj_id]
         if args[3][0] == '"':
-            i = 4
             string = args[3]
-            for i in range(len(args)):
+            for i in range(4, len(args)):
                 string = string + " " + args[i]
                 if args[i][-1] == '"':
                     args[3] = string
