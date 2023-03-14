@@ -33,7 +33,14 @@ class FileStorage():
         if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, "r") as f:
                 objects = json.load(f)
-            clsmod = {'BaseModel': "models.base_model"}
+            clsmod = {'BaseModel': "models.base_model",
+                      'User': "models.user",
+                      'Place': "models.place",
+                      'State': "models.state",
+                      'City': "models.city",
+                      'Amenity': "models.amenity",
+                      'Review': "models.review"
+                     }
             for key, value in objects.items():
                 clsnm = value["__class__"]
                 for k, v in clsmod.items():
