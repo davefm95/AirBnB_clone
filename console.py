@@ -137,11 +137,10 @@ class HBNBCommand(cmd.Cmd):
         if args[3][0] == '"':
             string = args[3]
             for i in range(4, len(args)):
-                string = string + " " + args[i]
-                if args[i][-1] == '"':
-                    args[3] = string
+                if string[-1] == '"':
+                    args[3] = string[1:-1]
                     break
-            args[3] = args[3][1:-1]
+                string = string + " " + args[i]
         elif "." in args[3]:
             try:
                 float(args[3])
