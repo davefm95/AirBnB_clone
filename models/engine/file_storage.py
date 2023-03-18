@@ -40,7 +40,7 @@ class FileStorage():
                       'City': "models.city",
                       'Amenity': "models.amenity",
                       'Review': "models.review"
-                     }
+                      }
             for key, value in objects.items():
                 clsnm = value["__class__"]
                 for k, v in clsmod.items():
