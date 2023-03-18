@@ -22,6 +22,12 @@ class HBNBCommand(cmd.Cmd):
         print()
         return True
 
+    @staticmethod
+    def cls_lst():
+        """returns list of classes"""
+        return ["BaseModel", "User", "Place", "State",
+                "City", "Amenity", "Review"]
+
     def do_create(self, arg):
         """Creates an instance"""
         if not arg:
@@ -35,7 +41,7 @@ class HBNBCommand(cmd.Cmd):
                       'City': "models.city",
                       'Amenity': "models.amenity",
                       'Review': "models.review"
-                     }
+                      }
             for k, v in clsmod.items():
                 if k == arg:
                     mymod = import_module(v)
@@ -53,20 +59,19 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        isvalidclass = 0
-        for key in objs.keys():
-            if args[0] == key.split(".")[0]:
-                isvalidclass = 1
-                if len(args) == 1:
-                    print("** instance id missing**")
-                    return
-                if args[1] == key.split(".")[1]:
-                    print(objs[key])
-                    return
-        if isvalidclass == 1:
-            print("** no instance found **")
-        else:
+        cls_lst = HBNBCommand.cls_lst()
+        if args[0] not in cls_lst:
             print("** class doesn't exist **")
+            return
+        if len(args) == 1:
+            print("** instance id missing **")
+            return
+        key = args[0] + "." + args[1]
+        for k in objs.keys():
+            if k == key:
+                print(objs[k])
+                return
+        print("** no instance found **")
 
     def do_destroy(self, arg):
         """deletes an instance from the file"""
@@ -75,21 +80,20 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        isvalidclass = 0
-        for key in objs.keys():
-            if args[0] == key.split(".")[0]:
-                isvalidclass = 1
-                if len(args) == 1:
-                    print("** instance id missing**")
-                    return
-                if args[1] == key.split(".")[1]:
-                    del objs[key]
-                    storage.save()
-                    return
-        if isvalidclass == 1:
-            print("** no instance found **")
-        else:
+        cls_lst = HBNBCommand.cls_lst()
+        if args[0] not in cls_lst:
             print("** class doesn't exist **")
+            return
+        if len(args) == 1:
+            print("** instance id missing **")
+            return
+        key = args[0] + "." + args[1]
+        for k in objs.keys():
+            if k == key:
+                del objs[k]
+                storage.save()
+                return
+        print("** no instance found **")
 
     def do_all(self, arg):
         """Prints all string rep of objs"""
@@ -98,13 +102,13 @@ class HBNBCommand(cmd.Cmd):
             for v in objs.values():
                 print(v)
             return
-        isvalidclass = 0
+        cls_lst = HBNBCommand.cls_lst()
+        if arg not in cls_lst:
+            print("** class doesn't exist **")
+            return
         for k in objs.keys():
             if arg == k.split(".")[0]:
-                isvalidclass = 1
                 print(objs[k])
-        if not isvalidclass:
-            print("** class doesn't exist **")
 
     def do_update(self, arg):
         """updates an instance"""
@@ -113,18 +117,16 @@ class HBNBCommand(cmd.Cmd):
             return
         args = arg.split()
         objs = storage.all()
-        lst = []
-        for key in objs.keys():
-            lst.append(key.split(".")[0])
-            lst.append(key.split(".")[1])
+        lst = HBNBCommand.cls_lst()
         if args[0] not in lst:
             print("** class doesn't exist **")
             return
         if len(args) == 1:
             print("**instance id missing **")
             return
-        if args[1] not in lst:
-            print("**no instance found **")
+        obj_id = args[0] + "." + args[1]
+        if obj_id not in objs:
+            print("** no instance found **")
             return
         if len(args) == 2:
             print("** attribute name missing **")
@@ -132,15 +134,15 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 3:
             print("** value missing **")
             return
-        obj_id = args[0] + "." + args[1]
         obj = objs[obj_id]
         if args[3][0] == '"':
             string = args[3]
-            for i in range(4, len(args)):
+            for i in range(4, len(args) + 1):
                 if string[-1] == '"':
                     args[3] = string[1:-1]
                     break
-                string = string + " " + args[i]
+                if i < len(args):
+                    string = string + " " + args[i]
         elif "." in args[3]:
             try:
                 float(args[3])
@@ -153,6 +155,7 @@ class HBNBCommand(cmd.Cmd):
                 pass
         obj.__dict__[args[2]] = args[3]
         obj.save()
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

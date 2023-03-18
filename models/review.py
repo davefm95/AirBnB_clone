@@ -3,7 +3,7 @@
 from models.base_model import BaseModel
 
 
-class Reviews(BaseModel):
+class Review(BaseModel):
     """reviews class inherits basemodel"""
     place_id = ""
     user_id = ""
