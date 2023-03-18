@@ -1,0 +1,65 @@
+#!/usr/bin/python3
+"""Test module for base model class"""
+import datetime
+import unittest
+import re
+from models.base_model import BaseModel
+
+
+class TestBaseModel(unittest.TestCase):
+    """Tests The BaseModel class"""
+
+    def test_init(self):
+        """Tests the __init__ method"""
+        tester = BaseModel()
+        self.assertIsInstance(tester, BaseModel)
+        self.assertIsInstance(tester.id, str)
+        self.assertIsInstance(tester.created_at, datetime.datetime)
+        self.assertIsInstance(tester.updated_at, datetime.datetime)
+        atts = {'id': '9017dc78-b780-44e8-9bb8-2c3e19e41e10',
+                'created_at': '2023-03-18T11:23:59.934696',
+                'updated_at': '2023-03-18T11:23:59.934696',
+                '__class__': 'BaseModel'}
+        tester = BaseModel(**atts)
+        self.assertIsInstance(tester, BaseModel)
+        self.assertIsEqual(tester.id, atts[id])
+        self.assertIsEqual(tester.created_at, atts[created_at])
+        self.assertIsEqual(tester.updated_at, atts[updated_at])
+        self.assertNotIn("__class__", tester.__dict__)
+        atts = {}
+        tester = BaseModel(**atts)
+        self.assertIsInstance(tester, BaseModel)
+        self.assertIsInstance(tester.id, str)
+        self.assertIsInstance(tester.created_at, datetime.datetime)
+        self.assertIsInstance(tester.updated_at, datetime.datetime)
+        tester = BaseModel(10)
+        self.assertIsInstance(tester, BaseModel)
+        self.assertIsInstance(tester.id, str)
+        self.assertIsInstance(tester.created_at, datetime.datetime)
+        self.assertIsInstance(tester.updated_at, datetime.datetime)
+        tester = BaseModel([1, 2, "strung", (8,), 6.7])
+        self.assertIsInstance(tester, BaseModel)
+        self.assertIsInstance(tester.id, str)
+        self.assertIsInstance(tester.created_at, datetime.datetime)
+        self.assertIsInstance(tester.updated_at, datetime.datetime)
+        with self.assertRaises(ValueError):
+            tester = BaseModel(**{'created_at': "2023-03-18", "id": "tester"})
+        with self.assertRaises(ValueError):
+            tester = BaseModel(**{'updated_at': "2023-03-18", "id": "tester"})
+        tester = BaseModel(name='femi')
+        self.assertIsInstance(tester, BaseModel)
+        self.assertIsInstance(tester.id, str)
+        self.assertIsInstance(tester.created_at, datetime.datetime)
+        self.assertIsInstance(tester.updated_at, datetime.datetime)
+        self.assertEqual(tester.name, 'femi')
+
+    def test_str_(self):
+        """Tests the __str__method__"""
+        tester = BaseModel()
+        self.assertRegex(str(tester), r"^\[BaseModel\] \(([-a-f0-9]+)\).*")
+        with self.assertRaises(TypeError):
+            BaseModel.__str__()
+
+    def test_save(self):
+        """Tests save method"""
+        

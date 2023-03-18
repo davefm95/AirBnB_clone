@@ -1,0 +1,27 @@
+#!/usr/bin/python3
+"""Test module for base model class"""
+import unittest
+from models.base_model import BaseModel
+
+
+class TestBaseModel(unittest.TestCase):
+    """Tests The BaseModel class"""
+
+    def test_init(self):
+        """Tests the __init__ method"""
+        tester = BaseModel()
+        self.assertIsInstance(tester, BaseModel)
+        self.assertIsInstance(tester.id, str)
+        self.assertIsInstance(tester.created_at, datetime.datetime)
+        self.assertIsInstance(tester.updated_at, datetime.datetime)
+        atts = {"id": "3381f564-525b-4eb7-9b61-39491d3a47c7",
+                "created_at": "2023-03-18T08:26:24.778331",
+                "updated_at": "2023-03-18T08:26:24.778340",
+                "__class__": "BaseModel"
+               }
+        tester = BaseModel(**atts)
+        self.assertIsInstance(tester, BaseModel)
+        self.assertIsInstance(tester.id, str)
+        self.assertIsInstance(tester.created_at, datetime.datetime)
+        self.assertIsInstance(tester.updated_at, datetime.datetime)
+        

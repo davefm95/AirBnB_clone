@@ -11,6 +11,12 @@ class BaseModel():
     def __init__(self, *args, **kwargs):
         """This initializes the instance"""
         if len(kwargs) > 0:
+            if "id" not in kwargs.keys():
+                self.__dict__['id'] = str(uuid.uuid4())
+            if "created_at" not in kwargs.keys():
+                self.__dict__["created_at"] = datetime.now()
+            if "updated_at" not in kwargs.keys():
+                self.__dict__['updated_at'] = self.__dict__['created_at']
             for key, value in kwargs.items():
                 if key == "__class__":
                     continue
