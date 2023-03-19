@@ -1,0 +1,1 @@
+This is the dorectorey for the web static project of AirBnB clone
